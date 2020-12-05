@@ -85,14 +85,28 @@ main();
 function selectsColumn() {
     let select = document.querySelectorAll('select');
     select.forEach(function(item) {
-        let option = item.querySelector('option');
 
+
+
+
+        let newColumn = COLUMNS.map(function(name) {
+          console.log(item);
+        });
+
+        console.log(newColumn);
+
+        // item.append(newOption);
+
+
+
+        let option = item.querySelector('option');
         let idSelect = COLUMNS.filter(select => select.id === +option.value);
+
         idSelect.forEach(function(item) {
-            console.log(item.title);
             option.innerText = item.title;
         });
     });
 }
 
 selectsColumn();
+
