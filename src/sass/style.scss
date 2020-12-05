@@ -1,0 +1,66 @@
+.app {
+    display: flex;
+    :nth-child(4) {
+        border-right: 2px solid;
+    }
+}
+.column {    
+    text-align: center;
+    font-size: 24px;   
+    width: 400px;
+    min-height: 800px;
+    border: solid;
+    border-width: 2px 0 2px 2px;
+    background-color: #E0FFFF;
+    &__title {
+        background-color: #AFEEEE;
+        border-bottom: 2px solid black;
+    }
+    &__cards {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+}
+.card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #D3D3D3;
+    margin-top: 15px;
+    width: 360px;
+    border: 2px solid black;
+    &__top {
+        width: 90%;
+        display: flex;
+        justify-content: space-between;
+        padding: 5px;
+    }
+    &__description {
+        border: 1px solid black;
+        width: 90%;
+        min-height: 40%;
+    }
+    &__bottom {
+        margin-top: 20px;
+        width: 90%;
+        display: flex;        
+        justify-content: space-between;
+    }
+    &__left {
+
+    }
+    &__right {
+        width: 30%;
+        display: flex;
+        flex-direction: column;
+    }
+    &__reports {
+        display: flex;
+        justify-content: space-between;
+    }
+    &__assigns {
+        display: flex;        
+        justify-content: space-between;
+    }
+}
