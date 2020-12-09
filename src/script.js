@@ -82,11 +82,10 @@ function main() {
 main();
 
 
-function selectsColumn() {
+function addSelectOptions() {
     let select = document.querySelectorAll('select');
     select.forEach(function(item) {
         let idColumn = +item.getAttribute('data-id');
-        console.log(idColumn);      
 
         COLUMNS.forEach(function(i) {
           if(i.id === idColumn) {
@@ -103,5 +102,18 @@ function selectsColumn() {
     });
 }
 
-selectsColumn();
+addSelectOptions();
 
+function movingCard() {
+  document.addEventListener('change', function(e) {
+    if(e.target.className == "card__column-list")
+    {
+      console.log(e.target.value);
+
+
+
+    }
+  });
+}
+
+movingCard();
