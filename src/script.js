@@ -104,13 +104,14 @@ function addSelectOptions() {
 
 addSelectOptions();
 
+
 function movingCard() {
   document.addEventListener('change', function(e) {
     if(e.target.className == "card__column-list")
     {
       console.log(e.target.value);
 
-
+      let selectId = +e.target.value;     
 
     }
   });
