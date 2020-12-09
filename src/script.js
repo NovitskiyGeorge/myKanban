@@ -37,7 +37,7 @@ function getCardHtml(card) {
     <div class="card__description">${card.description}</div>
     <div class="card__bottom">
       <div class="card__left">
-        <select class="card__column-list"><option value="${card.columnId}">${card.columnId}</option></select>
+        <select class="card__column-list" data-id="${card.columnId}"></select>
       </div>
       <div class="card__right">
         <div class="card__reports">
@@ -85,26 +85,21 @@ main();
 function selectsColumn() {
     let select = document.querySelectorAll('select');
     select.forEach(function(item) {
+        let idColumn = +item.getAttribute('data-id');
+        console.log(idColumn);      
 
+        COLUMNS.forEach(function(i) {
+          if(i.id === idColumn) {
+            let newOption = new Option(i.title, i.id, true, true);
+            item.append(newOption);
+            return;
 
-
-
-        let newColumn = COLUMNS.map(function(name) {
-          console.log(item);
+          }
+          let newOption = new Option(i.title, i.id);
+          item.append(newOption);
         });
 
-        console.log(newColumn);
 
-        // item.append(newOption);
-
-
-
-        let option = item.querySelector('option');
-        let idSelect = COLUMNS.filter(select => select.id === +option.value);
-
-        idSelect.forEach(function(item) {
-            option.innerText = item.title;
-        });
     });
 }
 
