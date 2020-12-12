@@ -29,7 +29,7 @@ return `<div class="column">
 }
 
 function getCardHtml(card) {
-return `<div class="card" data-id="${card.columnId}">
+return `<div class="card" data-id="${card.id}">
   <div class="card__top">
     <div class="card__title">${card.title}</div>
     <div class="card__id">${card.id}</div>
@@ -85,7 +85,9 @@ main();
 function selectsColumn() {
   let select = document.querySelectorAll('select');
   select.forEach(function(item) {
+      if(item.options.length >= 4) return;
       let idColumn = +item.getAttribute('data-id');
+
 
       COLUMNS.forEach(function(i) {
         if(i.id === idColumn) {
@@ -105,16 +107,20 @@ function addHtml() {
 let cards = document.querySelectorAll('.card');
 cards.forEach(function(item){
   item.addEventListener('change', function(e) {
+    let cardId = +e.currentTarget.getAttribute('data-id');
     let select = e.target;
     selectId = +select.value;
-    console.log(selectId);
 
+    let card = CARDS.filter(card => card.id === cardId);
+    card.forEach(item => {
+      item.columnId = selectId;
+    });
+    let newCard = getCardsHtml(card);
 
-
-
-    
+    item.remove();
     let cardListElement = document.querySelector(`.column__cards[data-id="${selectId}"]`);
-    cardListElement.append('cardsHtml');
+    cardListElement.insertAdjacentHTML('beforeend', newCard);
+    selectsColumn();
 
 
   });
