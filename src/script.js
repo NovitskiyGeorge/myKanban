@@ -29,7 +29,7 @@ function getColumnHtml(column) {
 }
 
 function getCardHtml(card) {
-  return `<div class="card">
+  return `<div class="card" data-id="${card.columnId}">
     <div class="card__top">
       <div class="card__title">${card.title}</div>
       <div class="card__id">${card.id}</div>
@@ -86,22 +86,38 @@ function selectsColumn() {
     let select = document.querySelectorAll('select');
     select.forEach(function(item) {
         let idColumn = +item.getAttribute('data-id');
-        console.log(idColumn);      
 
         COLUMNS.forEach(function(i) {
           if(i.id === idColumn) {
             let newOption = new Option(i.title, i.id, true, true);
             item.append(newOption);
             return;
-
           }
           let newOption = new Option(i.title, i.id);
           item.append(newOption);
         });
-
-
     });
 }
 
 selectsColumn();
 
+function addHtml() {
+  let cards = document.querySelectorAll('.card');
+  cards.forEach(function(item){
+    item.addEventListener('change', function(e) {
+    // console.log(item.getAttribute('data-id'));
+    let select = e.target;
+    selectId = +select.value;
+    console.log(selectId);
+
+    // option.getAttribute('selected')
+
+
+      let cardListElement = document.querySelector(`.column__cards[data-id="${selectId}"]`);
+      cardListElement.append('cardsHtml');
+
+
+    });
+  });
+}
+addHtml();
