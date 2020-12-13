@@ -29,7 +29,7 @@ return `<div class="column">
 }
 
 function getCardHtml(card) {
-return `<div class="card" data-id="${card.id}">
+return `<div class="card" data-id="${card.id}" data-action="change">
   <div class="card__top">
     <div class="card__title">${card.title}</div>
     <div class="card__id">${card.id}</div>
@@ -103,13 +103,39 @@ function selectsColumn() {
 
 selectsColumn();
 
-function addHtml() {
-let cards = document.querySelectorAll('.card');
-cards.forEach(function(item){
-  item.addEventListener('change', function(e) {
-    let cardId = +e.currentTarget.getAttribute('data-id');
-    let select = e.target;
-    selectId = +select.value;
+
+
+// function addHtml() {
+// let cards = document.querySelectorAll('.card');
+// cards.forEach(function(item){
+//   item.addEventListener('change', function(e) {
+//     let cardId = +e.currentTarget.getAttribute('data-id');
+//     let select = e.target;
+//     selectId = +select.value;
+
+//     let card = CARDS.filter(card => card.id === cardId);
+//     card.forEach(item => {
+//       item.columnId = selectId;
+//     });
+//     let newCard = getCardsHtml(card);
+
+//     item.remove();
+//     let cardListElement = document.querySelector(`.column__cards[data-id="${selectId}"]`);
+//     cardListElement.insertAdjacentHTML('beforeend', newCard);
+//     selectsColumn();
+
+
+//   });
+// });
+// }
+// addHtml();
+
+document.addEventListener('change', function(e) {
+  // console.log(e.target.parentElement.parentElement.parentElement);
+  if(e.target.parentElement.parentElement.parentElement.className == 'card') {
+    let cards = e.target.parentElement.parentElement.parentElement;
+    let cardId = +cards.getAttribute('data-id');
+    let selectId = +e.target.value;
 
     let card = CARDS.filter(card => card.id === cardId);
     card.forEach(item => {
@@ -117,13 +143,11 @@ cards.forEach(function(item){
     });
     let newCard = getCardsHtml(card);
 
-    item.remove();
+    cards.remove();
     let cardListElement = document.querySelector(`.column__cards[data-id="${selectId}"]`);
     cardListElement.insertAdjacentHTML('beforeend', newCard);
     selectsColumn();
-
-
-  });
+  } 
 });
-}
-addHtml();
+
+
