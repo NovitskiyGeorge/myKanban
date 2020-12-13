@@ -130,8 +130,9 @@ selectsColumn();
 // }
 // addHtml();
 
+function movingCards() {
+
 document.addEventListener('change', function(e) {
-  // console.log(e.target.parentElement.parentElement.parentElement);
   if(e.target.parentElement.parentElement.parentElement.className == 'card') {
     let cards = e.target.parentElement.parentElement.parentElement;
     let cardId = +cards.getAttribute('data-id');
@@ -149,5 +150,7 @@ document.addEventListener('change', function(e) {
     selectsColumn();
   } 
 });
+}
 
+movingCards();
 
