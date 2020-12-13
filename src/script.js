@@ -12,10 +12,10 @@ let CARDS = [
 ];
 
 let USERS = [
-  {id: 1, name: 'vova', img: '...'},
-  {id: 2, name: 'gena', img: '...'},
-  {id: 3, name: 'kote', img: '...'},
-  {id: 4, name: 'pes', img: '...'},
+  {id: 1, name: 'Alex', img: '...'},
+  {id: 2, name: 'Dmitriy', img: '...'},
+  {id: 3, name: 'Petr', img: '...'},
+  {id: 4, name: 'Sofy', img: '...'},
 ];
 
 
@@ -29,7 +29,7 @@ return `<div class="column">
 }
 
 function getCardHtml(card) {
-return `<div class="card" data-id="${card.id}" data-action="change">
+return `<div class="card" data-id="${card.id}" data-report="${card.reportId}" data-assign="${card.assignId}">
   <div class="card__top">
     <div class="card__title">${card.title}</div>
     <div class="card__id">${card.id}</div>
@@ -77,6 +77,8 @@ COLUMNS.forEach(column => {
 function main() {
 APP_ELEMENT.innerHTML = getAllColumns();
 setCardsToColumns();
+initReports();
+
 }
 
 main();
@@ -104,53 +106,51 @@ function selectsColumn() {
 selectsColumn();
 
 
-
-// function addHtml() {
-// let cards = document.querySelectorAll('.card');
-// cards.forEach(function(item){
-//   item.addEventListener('change', function(e) {
-//     let cardId = +e.currentTarget.getAttribute('data-id');
-//     let select = e.target;
-//     selectId = +select.value;
-
-//     let card = CARDS.filter(card => card.id === cardId);
-//     card.forEach(item => {
-//       item.columnId = selectId;
-//     });
-//     let newCard = getCardsHtml(card);
-
-//     item.remove();
-//     let cardListElement = document.querySelector(`.column__cards[data-id="${selectId}"]`);
-//     cardListElement.insertAdjacentHTML('beforeend', newCard);
-//     selectsColumn();
+function getUsers(arr, id) {  
+  let nameReport = arr.find(arr => arr.id === id);      
+  return nameReport.name;
+}
 
 
-//   });
-// });
-// }
-// addHtml();
+function initReports() {
+  let cardsReport = document.querySelectorAll('.card__reports');
+  cardsReport.forEach(item => {
+    let cardReportId = +item.parentElement.parentElement.parentElement.getAttribute('data-report');
+
+    let nameReport = getUsers(USERS, cardReportId);
+    item.firstElementChild.innerHTML = nameReport;
+  });
+}
+
+
+
+function getNewCard(cardId, selectId) {
+  let card = CARDS.filter(card => card.id === cardId);
+  card.forEach(item => {
+    item.columnId = selectId;
+  });
+  return getCardsHtml(card);
+}
+
+
 
 function movingCards() {
 
 document.addEventListener('change', function(e) {
-  if(e.target.parentElement.parentElement.parentElement.className == 'card') {
-    let cards = e.target.parentElement.parentElement.parentElement;
-    let cardId = +cards.getAttribute('data-id');
-    let selectId = +e.target.value;
+  if(e.target.parentElement.parentElement.parentElement.className === 'card') {
+    let card = e.target.parentElement.parentElement.parentElement;
+    let cardId = +card.getAttribute('data-id');
+    let selectId = +e.target.value;    
 
-    let card = CARDS.filter(card => card.id === cardId);
-    card.forEach(item => {
-      item.columnId = selectId;
-    });
-    let newCard = getCardsHtml(card);
+    let newCard = getNewCard(cardId, selectId);
 
-    cards.remove();
+    card.remove();
     let cardListElement = document.querySelector(`.column__cards[data-id="${selectId}"]`);
     cardListElement.insertAdjacentHTML('beforeend', newCard);
     selectsColumn();
+    initReports();
   } 
 });
 }
-
 movingCards();
 
