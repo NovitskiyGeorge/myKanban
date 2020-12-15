@@ -78,18 +78,16 @@ function main() {
 APP_ELEMENT.innerHTML = getAllColumns();
 setCardsToColumns();
 initReports();
-
+initAssigns();
 }
 
 main();
-
 
 function selectsColumn() {
   let select = document.querySelectorAll('select');
   select.forEach(function(item) {
       if(item.options.length >= 4) return;
       let idColumn = +item.getAttribute('data-id');
-
 
       COLUMNS.forEach(function(i) {
         if(i.id === idColumn) {
@@ -105,7 +103,6 @@ function selectsColumn() {
 
 selectsColumn();
 
-
 function getUsers(arr, id) {  
   let user = arr.find(arr => arr.id === id);      
   return user;
@@ -118,19 +115,25 @@ function initReports() {
     let cardReportId = +item.parentElement.parentElement.parentElement.getAttribute('data-report');
     let cardAssignId = +item.parentElement.parentElement.parentElement.getAttribute('data-assign');
 
-
     let nameReport = getUsers(USERS, cardReportId);
     let nameAssign = getUsers(USERS, cardAssignId);
-
-
     
     item.firstElementChild.innerHTML = nameReport.name;
     item.lastElementChild.innerHTML = nameReport.img;
-
   });
 }
 
+function initAssigns() {
+  let cardsReport = document.querySelectorAll('.card__assigns');
+  cardsReport.forEach(item => {
+    let cardAssignId = +item.parentElement.parentElement.parentElement.getAttribute('data-assign');
 
+    let nameAssign = getUsers(USERS, cardAssignId);
+    
+    item.firstElementChild.innerHTML = nameAssign.name;
+    item.lastElementChild.innerHTML = nameAssign.img;
+  });
+}
 
 function getNewCard(cardId, selectId) {
   let card = CARDS.filter(card => card.id === cardId);
@@ -139,8 +142,6 @@ function getNewCard(cardId, selectId) {
   });
   return getCardsHtml(card);
 }
-
-
 
 function movingCards() {
 
