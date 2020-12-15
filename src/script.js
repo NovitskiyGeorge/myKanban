@@ -12,10 +12,10 @@ let CARDS = [
 ];
 
 let USERS = [
-  {id: 1, name: 'Alex', img: '...'},
-  {id: 2, name: 'Dmitriy', img: '...'},
-  {id: 3, name: 'Petr', img: '...'},
-  {id: 4, name: 'Sofy', img: '...'},
+  {id: 1, name: 'Alex', img: '<img src="img/Alex.jpg" alt="Alex">'},
+  {id: 2, name: 'Dmitriy', img: '<img src="img/Dmitriy.jpg" alt="Dmitriy">'},
+  {id: 3, name: 'Petr', img: '<img src="img/Petr.jpg" alt="Petr">'},
+  {id: 4, name: 'Sofy', img: '<img src="img/Sofy.jpg" alt="Sofy">'},
 ];
 
 
@@ -107,8 +107,8 @@ selectsColumn();
 
 
 function getUsers(arr, id) {  
-  let nameReport = arr.find(arr => arr.id === id);      
-  return nameReport.name;
+  let user = arr.find(arr => arr.id === id);      
+  return user;
 }
 
 
@@ -116,9 +116,17 @@ function initReports() {
   let cardsReport = document.querySelectorAll('.card__reports');
   cardsReport.forEach(item => {
     let cardReportId = +item.parentElement.parentElement.parentElement.getAttribute('data-report');
+    let cardAssignId = +item.parentElement.parentElement.parentElement.getAttribute('data-assign');
+
 
     let nameReport = getUsers(USERS, cardReportId);
-    item.firstElementChild.innerHTML = nameReport;
+    let nameAssign = getUsers(USERS, cardAssignId);
+
+
+    
+    item.firstElementChild.innerHTML = nameReport.name;
+    item.lastElementChild.innerHTML = nameReport.img;
+
   });
 }
 
