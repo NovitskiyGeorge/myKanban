@@ -41,12 +41,12 @@ return `<div class="card" data-id="${card.id}" data-report="${card.reportId}" da
     </div>
     <div class="card__right">
       <div class="card__reports">
-        <div class="card__reporter">${card.reportId}</div>
-        <div class="card__reporter-img">${card.reportId}</div>
+        <div class="card__reporter"></div>
+        <div class="card__reporter-img"></div>
       </div>
       <div class="card__assigns">
-        <div class="card__assign">${card.assignId}</div>
-        <div class="card__assign-img">${card.assignId}</div>
+        <div class="card__assign"></div>
+        <div class="card__assign-img">$</div>
       </div>
     </div>
   </div>
@@ -76,6 +76,7 @@ COLUMNS.forEach(column => {
 
 function main() {
 APP_ELEMENT.innerHTML = getAllColumns();
+getLocalStorage();
 setCardsToColumns();
 initReports();
 initAssigns();
@@ -88,7 +89,6 @@ function selectsColumn() {
   select.forEach(function(item) {
       if(item.options.length >= 4) return;
       let idColumn = +item.getAttribute('data-id');
-
       COLUMNS.forEach(function(i) {
         if(i.id === idColumn) {
           let newOption = new Option(i.title, i.id, true, true);
@@ -108,16 +108,11 @@ function getUsers(arr, id) {
   return user;
 }
 
-
 function initReports() {
   let cardsReport = document.querySelectorAll('.card__reports');
   cardsReport.forEach(item => {
     let cardReportId = +item.parentElement.parentElement.parentElement.getAttribute('data-report');
-    let cardAssignId = +item.parentElement.parentElement.parentElement.getAttribute('data-assign');
-
-    let nameReport = getUsers(USERS, cardReportId);
-    let nameAssign = getUsers(USERS, cardAssignId);
-    
+    let nameReport = getUsers(USERS, cardReportId);    
     item.firstElementChild.innerHTML = nameReport.name;
     item.lastElementChild.innerHTML = nameReport.img;
   });
@@ -127,9 +122,7 @@ function initAssigns() {
   let cardsReport = document.querySelectorAll('.card__assigns');
   cardsReport.forEach(item => {
     let cardAssignId = +item.parentElement.parentElement.parentElement.getAttribute('data-assign');
-
-    let nameAssign = getUsers(USERS, cardAssignId);
-    
+    let nameAssign = getUsers(USERS, cardAssignId);    
     item.firstElementChild.innerHTML = nameAssign.name;
     item.lastElementChild.innerHTML = nameAssign.img;
   });
@@ -156,10 +149,23 @@ document.addEventListener('change', function(e) {
     card.remove();
     let cardListElement = document.querySelector(`.column__cards[data-id="${selectId}"]`);
     cardListElement.insertAdjacentHTML('beforeend', newCard);
+    console.log(selectId);
+    localStorage.setItem(cardId, selectId);
     selectsColumn();
     initReports();
+    initAssigns();
   } 
 });
 }
 movingCards();
 
+// получаем данные из LS и прописываем новые значения карточек в column
+
+function getLocalStorage() {
+  CARDS.forEach(card => {
+    let columnId = localStorage.getItem(card.id);
+    if(columnId == null) return;
+    console.log(columnId);
+    card.columnId = +columnId;
+  });
+}
